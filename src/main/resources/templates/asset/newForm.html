@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>자산 등록</title>
+    <th:block th:replace="~{layout/layout :: header}"></th:block>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">신규 자산 등록</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/assets" method="post">
+                        <input type="hidden" th:name="${_csrf != null} ? ${_csrf.parameterName} : '_csrf'" th:value="${_csrf != null} ? ${_csrf.token} : ''" />
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">자산번호</label>
+                                <input type="text" name="assetNo" class="form-control" placeholder="IT-2026-0001" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">자산명</label>
+                                <input type="text" name="name" class="form-control" placeholder="맥북 프로 16인치" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">카테고리</label>
+                                <select name="category" class="form-select">
+                                    <option value="LAPTOP">노트북</option>
+                                    <option value="MONITOR">모니터</option>
+                                    <option value="PHONE">휴대폰</option>
+                                    <option value="ETC">기타</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">시리얼 번호</label>
+                                <input type="text" name="serialNo" class="form-control" placeholder="Serial Number">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">구입일</label>
+                            <input type="date"
+                                   name="purchasedAt"
+                                   class="form-control"
+                                   th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">메모</label>
+                            <textarea name="memo" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <div class="text-end mt-4">
+                            <a href="/assets" class="btn btn-secondary px-4">취소</a>
+                            <button type="submit" class="btn btn-primary px-4">등록하기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{layout/layout :: footer}"></th:block>
+</body>
+</html>
