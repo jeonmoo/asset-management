@@ -25,7 +25,7 @@ public class AssetController {
     public String goToAssets(@ModelAttribute AssetSearchCondition condition,
                              @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                              Model model) {
-//        assetService.getAssets(condition, pageable);
+        assetService.getAssets(condition, pageable);
         return "asset/assetList";
     }
 
