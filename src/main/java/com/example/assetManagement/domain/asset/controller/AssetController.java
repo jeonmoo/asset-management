@@ -1,9 +1,12 @@
 package com.example.assetManagement.domain.asset.controller;
 
 import com.example.assetManagement.domain.asset.dto.AssetCreateRequest;
+import com.example.assetManagement.domain.asset.dto.AssetListResponse;
 import com.example.assetManagement.domain.asset.dto.AssetSearchCondition;
+import com.example.assetManagement.domain.asset.dto.QAssetListResponse;
 import com.example.assetManagement.domain.asset.service.AssetService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -25,7 +28,7 @@ public class AssetController {
     public String goToAssets(@ModelAttribute AssetSearchCondition condition,
                              @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                              Model model) {
-        assetService.getAssets(condition, pageable);
+        Page<AssetListResponse> responses = assetService.getAssets(condition, pageable);
         return "asset/assetList";
     }
 
