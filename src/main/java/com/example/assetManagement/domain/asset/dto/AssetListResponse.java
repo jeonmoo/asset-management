@@ -1,5 +1,6 @@
 package com.example.assetManagement.domain.asset.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,4 +16,13 @@ public class AssetListResponse {
     private String category;
     private String status;
     private LocalDate purchasedAt;
+
+    @QueryProjection // 빌드 시 QAssetListResponse 생성
+    public AssetListResponse(String assetNo, String name, String category, String status, LocalDate purchasedAt) {
+        this.assetNo = assetNo;
+        this.name = name;
+        this.category = category;
+        this.status = status;
+        this.purchasedAt = purchasedAt;
+    }
 }

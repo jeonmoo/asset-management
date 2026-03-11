@@ -2,7 +2,6 @@ package com.example.assetManagement.domain.asset.repository;
 
 import com.example.assetManagement.domain.asset.dto.AssetListResponse;
 import com.example.assetManagement.domain.asset.dto.AssetSearchCondition;
-import com.example.assetManagement.domain.asset.entity.Asset;
 import com.example.assetManagement.domain.asset.enums.AssetStatus;
 import com.example.assetManagement.domain.asset.enums.Category;
 import com.querydsl.core.types.Order;
@@ -24,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.example.assetManagement.domain.asset.entity.QAsset.asset;
+import com.example.assetManagement.domain.asset.dto.QAssetListResponse;
 
 @Repository
 @RequiredArgsConstructor
@@ -33,11 +33,11 @@ public class AssetQueryRepository {
 
     public Page<AssetListResponse> findByAsset(AssetSearchCondition condition, Pageable pageable) {
         List<AssetListResponse> content = queryFactory
-                .select(Projections.constructor(AssetListResponse.class,
+                .select(new QAssetListResponse(
                         asset.assetNo,
                         asset.name,
-                        asset.category,
-                        asset.status,
+                        asset.category.stringValue(), // Enum -> String 변환
+                        asset.status.stringValue(),   // Enum -> String 변환
                         asset.purchasedAt
                 ))
                 .from(asset)
