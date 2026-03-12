@@ -1,5 +1,7 @@
 package com.example.assetManagement.domain.asset.service;
 
+import com.example.assetManagement.common.GlobalException;
+import com.example.assetManagement.common.exceptionCode.AssetExceptionCode;
 import com.example.assetManagement.domain.asset.dto.*;
 import com.example.assetManagement.domain.asset.entity.Asset;
 import com.example.assetManagement.domain.asset.enums.AssetStatus;
@@ -33,7 +35,8 @@ public class AssetService {
     }
 
     public AssetDetailResponse getAsset(Long assetId) {
-        Asset asset = assetRepository.findById(assetId).orElseThrow(IllegalArgumentException::new);
+        Asset asset = assetRepository.findById(assetId)
+                .orElseThrow(() -> new GlobalException(AssetExceptionCode.NOT_FOUND_ASSET));
         return assetMapper.toAssetDetailResponse(asset);
     }
 
@@ -43,7 +46,8 @@ public class AssetService {
     }
 
     public void modifyAsset(Long assetId, AssetModifyRequest request) {
-        Asset asset = assetRepository.findWithLockById(assetId).orElseThrow(IllegalArgumentException::new);
+        Asset asset = assetRepository.findWithLockById(assetId)
+                .orElseThrow(() -> new GlobalException(AssetExceptionCode.NOT_FOUND_ASSET));
 
         String assetNo = request.getAssetNo();
         String serialNo = request.getSerialNo();
@@ -57,7 +61,7 @@ public class AssetService {
 
     public void deleteAsset(Long assetId) {
         Asset asset = assetRepository.findWithLockById(assetId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new GlobalException(AssetExceptionCode.NOT_FOUND_ASSET));
 
         asset.softDelete();
     }
