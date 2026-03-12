@@ -8,11 +8,9 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container mt-5">
     <h2>자산 목록 조회</h2>
-    <a href="/assets/new" class="btn btn-primary">
-        자산 등록
-    </a>
+
     <!-- 검색조건 -->
-    <form th:action="@{/assets}" th:object="${condition}" method="get" class="row g-3 mb-4">
+    <form th:action="@{/assets}" th:object="${condition}" method="get" class="row g-3 mb-4 align-items-center">
         <div class="col-md-3">
             <input type="text" th:field="*{q}" class="form-control" placeholder="검색어 입력">
         </div>
@@ -30,8 +28,13 @@
                         th:value="${stat}" th:text="${stat.description}"></option>
             </select>
         </div>
-        <div class="col-md-2">
+
+        <div class="col-md-1">
             <button type="submit" class="btn btn-secondary">검색</button>
+        </div>
+
+        <div class="col-md-2 ms-auto text-end">
+            <a href="/assets/new" class="btn btn-primary">자산 등록</a>
         </div>
     </form>
 
