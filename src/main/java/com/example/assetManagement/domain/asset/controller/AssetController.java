@@ -2,6 +2,7 @@ package com.example.assetManagement.domain.asset.controller;
 
 import com.example.assetManagement.domain.asset.dto.*;
 import com.example.assetManagement.domain.asset.service.AssetService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,14 +33,19 @@ public class AssetController {
     }
 
     @GetMapping("/new")
-    public String assetNewForm() {
+    public String assetNewForm(Model model) {
+        model.addAttribute("asset", new AssetModifyRequest());
         return "asset/newForm";
     }
 
     @PostMapping
-    public String createAsset(@ModelAttribute AssetCreateRequest request) {
+    public String createAsset(@Valid @ModelAttribute AssetCreateRequest request, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "asset/newForm";
+        }
         assetService.registerAsset(request);
-        return "asset/assetList";
+        redirectAttributes.addFlashAttribute("message", "성공적으로 등록되었습니다.");
+        return "redirect:/assets";
     }
 
     @GetMapping("/{assetId}")

@@ -20,7 +20,7 @@ public class AssetSupportService {
                 .name(request.getName())
                 .category(request.getCategory())
                 .serialNo(request.getSerialNo())
-                .purchasedAt(request.getPurchasedAt())
+                .purchasedAt(request.getPurchasedAt().atStartOfDay())
                 .memo(request.getMemo())
                 .build();
     }
