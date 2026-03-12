@@ -39,7 +39,7 @@ public class Asset {
     private String serialNo;
 
     @Column
-    private LocalDate purchasedAt;
+    private LocalDateTime purchasedAt;
 
     @Column(length = 500)
     private String memo;
@@ -59,7 +59,7 @@ public class Asset {
     private Boolean isDelete;
 
     @Builder
-    public Asset(String assetNo, String name, Category category, String serialNo, LocalDate purchasedAt, String memo) {
+    public Asset(String assetNo, String name, Category category, String serialNo, LocalDateTime purchasedAt, String memo) {
         this.assetNo = assetNo;
         this.name = name;
         this.category = category;

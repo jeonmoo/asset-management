@@ -8,12 +8,18 @@
 <div class="container mt-5">
   <h2>자산 상세 정보</h2>
 
-  <div class="mt-3">
-    <a th:if="${asset.status.name() == 'IN_STOCK'}"
-       th:href="@{/assets/{id}/assign(id=${asset.id})}" class="btn btn-primary">할당</a>
+  <div class="d-flex mt-3">
+    <div>
+      <a th:if="${asset.status.name() == 'IN_STOCK'}"
+         th:href="@{/assets/{id}/assign(id=${asset.id})}" class="btn btn-primary">할당</a>
 
-    <a th:if="${asset.status.name() == 'ASSIGNED'}"
-       th:href="@{/assets/{id}/return(id=${asset.id})}" class="btn btn-warning">회수</a>
+      <a th:if="${asset.status.name() == 'ASSIGNED'}"
+         th:href="@{/assets/{id}/return(id=${asset.id})}" class="btn btn-warning">회수</a>
+    </div>
+
+    <div class="ms-auto">
+      <a th:href="@{/assets/{id}/edit(id=${asset.id})}" class="btn btn-outline-primary">수정</a>
+    </div>
   </div>
 
   <div class="card mt-4">
@@ -38,18 +44,13 @@
         <dd class="col-sm-9" th:text="${#temporals.format(asset.purchasedAt, 'yyyy-MM-dd')}"></dd>
 
         <dt class="col-sm-3">등록일</dt>
-        <dd class="col-sm-9" th:text="${#temporals.format(asset.createdAt, 'yyyy-MM-dd HH:mm')}"></dd>
+        <dd class="col-sm-9" th:text="${#temporals.format(asset.createdAt, 'yyyy-MM-dd')}"></dd>
 
         <dt class="col-sm-3">최종수정일</dt>
-        <dd class="col-sm-9" th:text="${asset.updatedAt != null ? #temporals.format(asset.updatedAt, 'yyyy-MM-dd HH:mm') : '-'}"></dd>
+        <dd class="col-sm-9" th:text="${asset.updatedAt != null ? #temporals.format(asset.updatedAt, 'yyyy-MM-dd') : '-'}"></dd>
 
         <dt class="col-sm-3">메모</dt>
         <dd class="col-sm-9" th:text="${asset.memo} ?: '입력된 메모가 없습니다.'"></dd>
-
-        <dt class="col-sm-3" th:if="${asset.deletedAt != null}">삭제일</dt>
-        <dd class="col-sm-9" th:if="${asset.deletedAt != null}"
-            th:text="${#temporals.format(asset.deletedAt, 'yyyy-MM-dd HH:mm')}"></dd>
-      </dl>
     </div>
   </div>
 
@@ -71,9 +72,6 @@
     </tbody>
   </table>
 
-  <div class="mt-4">
-    <a th:href="@{/assets/{id}/edit(id=${asset.id})}" class="btn btn-outline-primary">수정</a>
-  </div>
 </div>
 </body>
 </html>

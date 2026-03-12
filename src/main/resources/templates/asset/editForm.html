@@ -1,33 +1,76 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>자산 수정</title>
+  <title>자산 정보 수정</title>
   <th:block th:replace="~{layout/layout :: header}"></th:block>
 </head>
 <body>
 <div class="container mt-5">
-  <h2>자산 수정</h2>
-  <form th:action="@{/assets/{id}/edit(id=${asset.id})}" th:object="${asset}" method="post" class="mt-4">
+  <!-- 메시지 -->
+  <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+    <span th:text="${message}">메시지 내용</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
 
+  <h2>자산 정보 수정</h2>
+
+  <!-- 수정 Form -->
+  <form th:action="@{/assets/{id}/edit(id=${asset.id})}" th:object="${asset}" method="post" class="mt-4">
     <input type="hidden" th:field="*{id}">
 
-    <div class="mb-3">
-      <label class="form-label">자산번호</label>
-      <input type="text" th:field="*{assetNo}" class="form-control" readonly> </div>
-    <div class="mb-3">
-      <label class="form-label">자산명</label>
-      <input type="text" th:field="*{name}" class="form-control">
-    </div>
-    <div class="mb-3">
-      <label class="form-label">상태</label>
-      <select th:field="*{status}" class="form-select">
-        <option th:each="stat : ${T(com.example.assetManagement.domain.asset.enums.AssetStatus).values()}"
-                th:value="${stat}" th:text="${stat.description}"></option>
-      </select>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">자산번호</label>
+        <input type="text" th:field="*{assetNo}" class="form-control" readonly>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">시리얼번호</label>
+        <input type="text" th:field="*{serialNo}" class="form-control" readonly>
+      </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">수정 완료</button>
-    <a th:href="@{/assets/{id}(id=${asset.id})}" class="btn btn-secondary">취소</a>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">자산명</label>
+        <input type="text" th:field="*{name}" class="form-control" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">카테고리</label>
+        <select th:field="*{category}" class="form-select">
+          <option th:each="cat : ${T(com.example.assetManagement.domain.asset.enums.Category).values()}"
+                  th:value="${cat}" th:text="${cat.name()}"></option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">상태</label>
+        <select th:field="*{status}" class="form-select">
+          <option th:each="stat : ${T(com.example.assetManagement.domain.asset.enums.AssetStatus).values()}"
+                  th:value="${stat}" th:text="${stat.name()}"></option>
+        </select>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">구매일</label>
+        <input type="date" th:field="*{purchasedAt}" class="form-control">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">메모</label>
+      <textarea th:field="*{memo}" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="row text-muted small">
+      <div class="col-md-4">등록일: <span th:text="${#temporals.format(asset.createdAt, 'yyyy-MM-dd')}"></span></div>
+      <div class="col-md-4">최종수정일: <span th:text="${#temporals.format(asset.updatedAt, 'yyyy-MM-dd')}"></span></div>
+    </div>
+
+    <div class="mt-4">
+      <button type="submit" class="btn btn-primary">수정 완료</button>
+      <a th:href="@{/assets/{id}(id=${asset.id})}" class="btn btn-secondary">취소</a>
+    </div>
   </form>
 </div>
 </body>

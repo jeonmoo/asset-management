@@ -24,7 +24,7 @@ public class AssetDetailResponse {
     private Category category;
     private AssetStatus status;
     private String serialNo;
-    private LocalDate purchasedAt;
+    private LocalDateTime purchasedAt;
     private String memo;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

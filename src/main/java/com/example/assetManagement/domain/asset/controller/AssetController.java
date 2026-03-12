@@ -1,9 +1,6 @@
 package com.example.assetManagement.domain.asset.controller;
 
-import com.example.assetManagement.domain.asset.dto.AssetCreateRequest;
-import com.example.assetManagement.domain.asset.dto.AssetDetailResponse;
-import com.example.assetManagement.domain.asset.dto.AssetListResponse;
-import com.example.assetManagement.domain.asset.dto.AssetSearchCondition;
+import com.example.assetManagement.domain.asset.dto.*;
 import com.example.assetManagement.domain.asset.service.AssetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,13 +30,6 @@ public class AssetController {
         return "asset/assetList";
     }
 
-    @GetMapping("/{assetId}")
-    public String modifyAsset(@PathVariable("assetId") Long assetId, Model model) {
-        AssetDetailResponse asset = assetService.getAsset(assetId);
-        model.addAttribute("asset", asset);
-        return "asset/detailForm";
-    }
-
     @GetMapping("/new")
     public String assetNewForm() {
         return "asset/newForm";
@@ -49,6 +39,27 @@ public class AssetController {
     public String createAsset(@ModelAttribute AssetCreateRequest request) {
         assetService.registerAsset(request);
         return "asset/assetList";
+    }
+
+    @GetMapping("/{assetId}")
+    public String goToAssetDetail(@PathVariable("assetId") Long assetId, Model model) {
+        AssetDetailResponse asset = assetService.getAsset(assetId);
+        model.addAttribute("asset", asset);
+        return "asset/detailForm";
+    }
+
+    @GetMapping("/{assetId}/edit")
+    public String goToModifyAsset(@PathVariable("assetId") Long assetId, Model model) {
+        AssetDetailResponse asset = assetService.getAsset(assetId);
+        model.addAttribute("asset", asset);
+        return "asset/editForm";
+    }
+
+    @PutMapping("/{assetId}/edit")
+    public String modifyAsset(@PathVariable("assetId") Long assetId, AssetModifyRequest request, RedirectAttributes redirectAttributes) {
+        AssetDetailResponse asset = assetService.getAsset(assetId);
+        redirectAttributes.addFlashAttribute("message", "수정되었습니다.");
+        return "redirect:/assets/{id}"; // 스프링이 자동으로 {id}를 치환해줍니다.
     }
 
     @PostMapping("/{assetId}/delete")
