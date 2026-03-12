@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,7 +22,8 @@ public class AssetModifyRequest {
     private Category category;
     private AssetStatus status;
     private String serialNo;
-    private LocalDateTime purchasedAt;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate purchasedAt;
     private String memo;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

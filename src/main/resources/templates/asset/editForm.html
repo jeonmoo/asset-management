@@ -15,24 +15,24 @@
   <h2>자산 정보 수정</h2>
 
   <!-- 수정 Form -->
-  <form th:action="@{/assets/{id}/edit(id=${asset.id})}" th:object="${asset}" method="post" class="mt-4">
+  <form th:action="@{/assets/{assetId}/edit(assetId=${asset.id})}" th:object="${asset}" method="post" class="mt-4">
     <input type="hidden" th:field="*{id}">
 
     <div class="row">
       <div class="col-md-6 mb-3">
         <label class="form-label">자산번호</label>
-        <input type="text" th:field="*{assetNo}" class="form-control" readonly>
+        <input type="text" th:field="*{assetNo}" class="form-control">
       </div>
       <div class="col-md-6 mb-3">
         <label class="form-label">시리얼번호</label>
-        <input type="text" th:field="*{serialNo}" class="form-control" readonly>
+        <input type="text" th:field="*{serialNo}" class="form-control">
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-6 mb-3">
         <label class="form-label">자산명</label>
-        <input type="text" th:field="*{name}" class="form-control" required>
+        <input type="text" th:field="*{name}" class="form-control">
       </div>
       <div class="col-md-6 mb-3">
         <label class="form-label">카테고리</label>

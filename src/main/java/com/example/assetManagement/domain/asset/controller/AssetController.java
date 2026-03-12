@@ -55,11 +55,11 @@ public class AssetController {
         return "asset/editForm";
     }
 
-    @PutMapping("/{assetId}/edit")
+    @PostMapping("/{assetId}/edit")
     public String modifyAsset(@PathVariable("assetId") Long assetId, AssetModifyRequest request, RedirectAttributes redirectAttributes) {
-        AssetDetailResponse asset = assetService.getAsset(assetId);
+        assetService.modifyAsset(assetId, request);
         redirectAttributes.addFlashAttribute("message", "수정되었습니다.");
-        return "redirect:/assets/{id}"; // 스프링이 자동으로 {id}를 치환해줍니다.
+        return "redirect:/assets/{assetId}";
     }
 
     @PostMapping("/{assetId}/delete")

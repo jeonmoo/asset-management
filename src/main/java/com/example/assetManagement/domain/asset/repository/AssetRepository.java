@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface AssetRepository extends JpaRepository<Asset, Long> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    Optional<Asset> findById(Long id);
+    Optional<Asset> findWithLockById(Long id);
 }
