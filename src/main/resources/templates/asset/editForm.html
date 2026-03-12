@@ -5,6 +5,7 @@
   <th:block th:replace="~{layout/layout :: header}"></th:block>
 </head>
 <body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container mt-5">
   <!-- 메시지 -->
   <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -73,5 +74,6 @@
     </div>
   </form>
 </div>
+<th:block th:replace="~{layout/layout :: footer}"></th:block>
 </body>
 </html>

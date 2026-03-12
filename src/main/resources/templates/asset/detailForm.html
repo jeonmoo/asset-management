@@ -5,6 +5,7 @@
   <th:block th:replace="~{layout/layout :: header}"></th:block>
 </head>
 <body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container mt-5">
   <h2>자산 상세 정보</h2>
 
@@ -73,5 +74,6 @@
   </table>
 
 </div>
+<th:block th:replace="~{layout/layout :: footer}"></th:block>
 </body>
 </html>
