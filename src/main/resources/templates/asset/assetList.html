@@ -51,17 +51,26 @@
             <th>카테고리</th>
             <th>상태</th>
             <th>등록일</th>
-            <th>관리</th> </tr>
+            <th>관리</th>
+        </tr>
         </thead>
         <tbody>
         <tr th:each="asset : ${assets}">
             <td th:text="${asset.assetNo}">IT-2026-0001</td>
-            <td><a th:href="@{/assets/{id}(id=${asset.assetNo})}" th:text="${asset.name}">노트북</a></td>
-            <td th:text="${asset.category}">LAPTOP</td>
+
             <td>
-                <span class="badge" th:classappend="..." th:text="${asset.status}">보유 중</span>
+                <a th:href="@{/assets/{assetId}(assetId=${asset.id})}"
+                   th:text="${asset.name}">노트북</a>
             </td>
+
+            <td th:text="${asset.category}">LAPTOP</td>
+
+            <td>
+                <span class="badge bg-secondary" th:text="${asset.status}">보유 중</span>
+            </td>
+
             <td th:text="${#temporals.format(asset.createdAt, 'yyyy-MM-dd')}">2026-03-11</td>
+
             <td>
                 <form th:action="@{/assets/{id}/delete(id=${asset.id})}" method="post"
                       onsubmit="return confirm('정말 삭제하시겠습니까?');">

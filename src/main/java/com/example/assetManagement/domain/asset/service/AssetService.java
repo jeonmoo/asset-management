@@ -1,6 +1,7 @@
 package com.example.assetManagement.domain.asset.service;
 
 import com.example.assetManagement.domain.asset.dto.AssetCreateRequest;
+import com.example.assetManagement.domain.asset.dto.AssetDetailResponse;
 import com.example.assetManagement.domain.asset.dto.AssetListResponse;
 import com.example.assetManagement.domain.asset.dto.AssetSearchCondition;
 import com.example.assetManagement.domain.asset.entity.Asset;
@@ -28,6 +29,11 @@ public class AssetService {
     @Transactional(readOnly = true)
     public Page<AssetListResponse> getAssets(AssetSearchCondition condition, Pageable pageable) {
         return assetQueryRepository.findByAsset(condition, pageable);
+    }
+
+    public AssetDetailResponse getAsset(Long assetId) {
+        Asset asset = assetRepository.findById(assetId).orElseThrow(IllegalArgumentException::new);
+        return assetMapper.toAssetDetailResponse(asset);
     }
 
     public void registerAsset(AssetCreateRequest request) {

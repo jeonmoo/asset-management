@@ -1,9 +1,9 @@
 package com.example.assetManagement.domain.asset.controller;
 
 import com.example.assetManagement.domain.asset.dto.AssetCreateRequest;
+import com.example.assetManagement.domain.asset.dto.AssetDetailResponse;
 import com.example.assetManagement.domain.asset.dto.AssetListResponse;
 import com.example.assetManagement.domain.asset.dto.AssetSearchCondition;
-import com.example.assetManagement.domain.asset.dto.QAssetListResponse;
 import com.example.assetManagement.domain.asset.service.AssetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,6 +33,13 @@ public class AssetController {
         return "asset/assetList";
     }
 
+    @GetMapping("/{assetId}")
+    public String modifyAsset(@PathVariable("assetId") Long assetId, Model model) {
+        AssetDetailResponse asset = assetService.getAsset(assetId);
+        model.addAttribute("asset", asset);
+        return "asset/detailForm";
+    }
+
     @GetMapping("/new")
     public String assetNewForm() {
         return "asset/newForm";
@@ -41,7 +48,6 @@ public class AssetController {
     @PostMapping
     public String createAsset(@ModelAttribute AssetCreateRequest request) {
         assetService.registerAsset(request);
-
         return "asset/assetList";
     }
 
