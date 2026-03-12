@@ -12,10 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,4 +44,20 @@ public class AssetController {
 
         return "asset/assetList";
     }
+
+    @PostMapping("/{assetId}/delete")
+    public String deleteAsset(@PathVariable("assetId") Long assetId,
+                              @ModelAttribute("condition") AssetSearchCondition condition,
+                              RedirectAttributes redirectAttributes) {
+
+        assetService.deleteAsset(assetId);
+        redirectAttributes.addFlashAttribute("message", "삭제되었습니다.");
+        return UriComponentsBuilder.fromPath("redirect:/assets")
+                .queryParam("q", condition.getQ())
+                .queryParam("category", condition.getCategory())
+                .queryParam("status", condition.getStatus())
+                .build()
+                .toUriString();
+    }
+
 }

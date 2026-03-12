@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 public class AssetListResponse {
 
+    private Long id;
     private String assetNo;
     private String name;
     private String category;
@@ -19,7 +20,8 @@ public class AssetListResponse {
     private LocalDateTime createdAt;
 
     @QueryProjection // 빌드 시 QAssetListResponse 생성
-    public AssetListResponse(String assetNo, String name, String category, String status, LocalDateTime createdAt) {
+    public AssetListResponse(Long id, String assetNo, String name, String category, String status, LocalDateTime createdAt) {
+        this.id = id;
         this.assetNo = assetNo;
         this.name = name;
         this.category = category;

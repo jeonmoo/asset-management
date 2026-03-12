@@ -13,6 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -41,6 +44,18 @@ public class AssetService {
                 .purchasedAt(request.getPurchasedAt())
                 .memo(request.getMemo())
                 .build();
+    }
+
+    public void deleteAsset(Long assetId) {
+        Asset asset = assetRepository.findById(assetId)
+                .orElseThrow(IllegalArgumentException::new);
+
+        softDeleteAsset(asset);
+    }
+
+    private void softDeleteAsset(Asset asset) {
+        asset.setIsDelete(true);
+        asset.setDeletedAt(LocalDateTime.now());
     }
 
 

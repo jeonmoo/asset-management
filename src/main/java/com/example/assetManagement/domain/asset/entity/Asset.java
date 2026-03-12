@@ -3,10 +3,7 @@ package com.example.assetManagement.domain.asset.entity;
 import com.example.assetManagement.domain.asset.enums.AssetStatus;
 import com.example.assetManagement.domain.asset.enums.Category;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,6 +18,10 @@ import java.time.LocalDateTime;
 public class Asset {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
     private String assetNo;
 
     @Column(nullable = false)
@@ -50,9 +51,11 @@ public class Asset {
     private LocalDateTime updatedAt;
 
     @Column
+    @Setter
     private LocalDateTime deletedAt;
 
     @Column(nullable = false)
+    @Setter
     private Boolean isDelete;
 
     @Builder

@@ -33,6 +33,7 @@ public class AssetQueryRepository {
     public Page<AssetListResponse> findByAsset(AssetSearchCondition condition, Pageable pageable) {
         List<AssetListResponse> content = queryFactory
                 .select(new QAssetListResponse(
+                        asset.id,
                         asset.assetNo,
                         asset.name,
                         asset.category.stringValue(),

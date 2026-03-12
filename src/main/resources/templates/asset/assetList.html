@@ -7,6 +7,10 @@
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container mt-5">
+    <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${message}">메시지 내용</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <h2>자산 목록 조회</h2>
 
     <!-- 검색조건 -->
@@ -47,7 +51,7 @@
             <th>카테고리</th>
             <th>상태</th>
             <th>등록일</th>
-        </tr>
+            <th>관리</th> </tr>
         </thead>
         <tbody>
         <tr th:each="asset : ${assets}">
@@ -55,13 +59,19 @@
             <td><a th:href="@{/assets/{id}(id=${asset.assetNo})}" th:text="${asset.name}">노트북</a></td>
             <td th:text="${asset.category}">LAPTOP</td>
             <td>
-                    <span class="badge"
-                          th:classappend="${asset.status == 'IN_STOCK' ? 'bg-success' :
-                                          (asset.status == 'ASSIGNED' ? 'bg-primary' :
-                                          (asset.status == 'REPAIR' ? 'bg-warning' : 'bg-danger'))}"
-                          th:text="${asset.status}">보유 중</span>
+                <span class="badge" th:classappend="..." th:text="${asset.status}">보유 중</span>
             </td>
             <td th:text="${#temporals.format(asset.createdAt, 'yyyy-MM-dd')}">2026-03-11</td>
+            <td>
+                <form th:action="@{/assets/{id}/delete(id=${asset.id})}" method="post"
+                      onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                    <input type="hidden" name="q" th:value="${condition.q}">
+                    <input type="hidden" name="category" th:value="${condition.category}">
+                    <input type="hidden" name="status" th:value="${condition.status}">
+                    <input type="hidden" name="page" th:value="${page.number}">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
