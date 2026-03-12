@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,7 +25,8 @@ public class AssetDetailResponse {
     private Category category;
     private AssetStatus status;
     private String serialNo;
-    private LocalDateTime purchasedAt;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate purchasedAt;
     private String memo;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
