@@ -65,11 +65,6 @@
       <textarea th:field="*{memo}" class="form-control" rows="3"></textarea>
     </div>
 
-<!--    <div class="row text-muted small">-->
-<!--      <div class="col-md-4">등록일: <span th:text="${#temporals.format(asset.createdAt, 'yyyy-MM-dd')}"></span></div>-->
-<!--      <div class="col-md-4">최종수정일: <span th:text="${#temporals.format(asset.updatedAt, 'yyyy-MM-dd')}"></span></div>-->
-<!--    </div>-->
-
     <div class="mt-4">
       <button type="submit" class="btn btn-primary">수정 완료</button>
       <a th:href="@{/assets/{id}(id=${asset.id})}" class="btn btn-secondary">취소</a>
