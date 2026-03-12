@@ -63,10 +63,8 @@ public class AssetController {
     }
 
     @PostMapping("/{assetId}/edit")
-    public String modifyAsset(@PathVariable("assetId") Long assetId,
-                              @Valid @ModelAttribute("asset") AssetModifyRequest request,
-                              BindingResult bindingResult,
-                              Model model) {
+    public String modifyAsset(@PathVariable("assetId") Long assetId,  @Valid @ModelAttribute("asset") AssetModifyRequest request,
+                              BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("assetId", assetId);
             return "asset/editForm";

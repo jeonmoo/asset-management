@@ -1,6 +1,6 @@
-package com.example.assetManagement.common;
+package com.example.assetManagement.common.exception;
 
-import com.example.assetManagement.common.exceptionCode.ExceptionCode;
+import com.example.assetManagement.common.exception.exceptionCode.ExceptionCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

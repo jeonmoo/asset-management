@@ -1,5 +1,6 @@
 package com.example.assetManagement.domain.asset.dto;
 
+import com.example.assetManagement.common.annotation.UniqueAssetNo;
 import com.example.assetManagement.domain.asset.enums.AssetStatus;
 import com.example.assetManagement.domain.asset.enums.Category;
 import jakarta.validation.constraints.NotBlank;
@@ -22,6 +23,7 @@ public class AssetModifyRequest {
     @NotNull(message = "자산 ID는 필수입니다.")
     private Long id; // 수정할 대상 식별자
 
+    @UniqueAssetNo
     @NotBlank(message = "자산 번호는 필수입니다.")
     @Size(max = 50, message = "자산 번호는 50자 이내여야 합니다.")
     private String assetNo;

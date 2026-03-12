@@ -1,4 +1,4 @@
-package com.example.assetManagement.common.exceptionCode;
+package com.example.assetManagement.common.exception.exceptionCode;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

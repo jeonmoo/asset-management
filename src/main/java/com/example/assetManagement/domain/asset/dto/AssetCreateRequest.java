@@ -1,5 +1,6 @@
 package com.example.assetManagement.domain.asset.dto;
 
+import com.example.assetManagement.common.annotation.UniqueAssetNo;
 import com.example.assetManagement.domain.asset.enums.AssetStatus;
 import com.example.assetManagement.domain.asset.enums.Category;
 import jakarta.validation.constraints.NotBlank;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AssetCreateRequest {
 
+    @UniqueAssetNo
     @NotBlank(message = "자산 번호는 필수입니다.")
     @Size(max = 255, message = "자산 번호는 255자 이하로 입력해주세요.")
     private String assetNo;

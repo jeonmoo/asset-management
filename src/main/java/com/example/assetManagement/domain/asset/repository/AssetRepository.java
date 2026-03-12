@@ -13,4 +13,6 @@ public interface AssetRepository extends JpaRepository<Asset, Long> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<Asset> findWithLockById(Long id);
+
+    Boolean existsByAssetNo(String assetNo);
 }
