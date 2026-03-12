@@ -22,7 +22,8 @@
     <div class="row">
       <div class="col-md-6 mb-3">
         <label class="form-label">자산번호</label>
-        <input type="text" th:field="*{assetNo}" class="form-control">
+        <input type="text" th:field="*{assetNo}" class="form-control" th:classappend="${#fields.hasErrors('assetNo')} ? 'is-invalid' : ''">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('assetNo')}" th:errors="*{assetNo}">에러 메시지</div>
       </div>
       <div class="col-md-6 mb-3">
         <label class="form-label">시리얼번호</label>
@@ -33,7 +34,8 @@
     <div class="row">
       <div class="col-md-6 mb-3">
         <label class="form-label">자산명</label>
-        <input type="text" th:field="*{name}" class="form-control">
+        <input type="text" th:field="*{name}" class="form-control" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
       </div>
       <div class="col-md-6 mb-3">
         <label class="form-label">카테고리</label>
@@ -63,10 +65,10 @@
       <textarea th:field="*{memo}" class="form-control" rows="3"></textarea>
     </div>
 
-    <div class="row text-muted small">
-      <div class="col-md-4">등록일: <span th:text="${#temporals.format(asset.createdAt, 'yyyy-MM-dd')}"></span></div>
-      <div class="col-md-4">최종수정일: <span th:text="${#temporals.format(asset.updatedAt, 'yyyy-MM-dd')}"></span></div>
-    </div>
+<!--    <div class="row text-muted small">-->
+<!--      <div class="col-md-4">등록일: <span th:text="${#temporals.format(asset.createdAt, 'yyyy-MM-dd')}"></span></div>-->
+<!--      <div class="col-md-4">최종수정일: <span th:text="${#temporals.format(asset.updatedAt, 'yyyy-MM-dd')}"></span></div>-->
+<!--    </div>-->
 
     <div class="mt-4">
       <button type="submit" class="btn btn-primary">수정 완료</button>
