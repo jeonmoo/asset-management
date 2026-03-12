@@ -38,3 +38,6 @@ out/
 
 ### Querydsl 생성 경로 (build/generated/querydsl) ###
 build/generated/querydsl/
+# MapStruct 및 Querydsl 등 자동 생성 코드 디렉토리 제외
+/build/
+/src/main/generated/
