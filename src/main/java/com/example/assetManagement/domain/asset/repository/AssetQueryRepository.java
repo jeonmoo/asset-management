@@ -37,8 +37,8 @@ public class AssetQueryRepository {
                         asset.assetNo,
                         asset.name,
                         asset.category.stringValue(), // Enum -> String 변환
-                        asset.status.stringValue(),   // Enum -> String 변환
-                        asset.purchasedAt
+                        asset.status.stringValue(), // Enum -> String 변환
+                        asset.createdAt
                 ))
                 .from(asset)
                 .where(

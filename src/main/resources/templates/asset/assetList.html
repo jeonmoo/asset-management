@@ -8,6 +8,34 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container mt-5">
     <h2>자산 목록 조회</h2>
+    <a href="/assets/new" class="btn btn-primary">
+        자산 등록
+    </a>
+    <!-- 검색조건 -->
+    <form th:action="@{/assets}" th:object="${condition}" method="get" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <input type="text" th:field="*{q}" class="form-control" placeholder="검색어 입력">
+        </div>
+        <div class="col-md-2">
+            <select th:field="*{category}" class="form-select">
+                <option value="">카테고리 전체</option>
+                <option th:each="cat : ${T(com.example.assetManagement.domain.asset.enums.Category).values()}"
+                        th:value="${cat}" th:text="${cat.description}"></option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select th:field="*{status}" class="form-select">
+                <option value="">상태 전체</option>
+                <option th:each="stat : ${T(com.example.assetManagement.domain.asset.enums.AssetStatus).values()}"
+                        th:value="${stat}" th:text="${stat.description}"></option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-secondary">검색</button>
+        </div>
+    </form>
+
+    <!-- 테이블 -->
     <table class="table table-hover mt-3">
         <thead class="table-light">
         <tr>
@@ -25,18 +53,36 @@
             <td th:text="${asset.category}">LAPTOP</td>
             <td>
                     <span class="badge"
-                          th:classappend="${asset.status.name() == 'IN_STOCK' ? 'bg-success' :
-                                          (asset.status.name() == 'ASSIGNED' ? 'bg-primary' :
-                                          (asset.status.name() == 'REPAIR' ? 'bg-warning' : 'bg-danger'))}"
-                          th:text="${asset.status.description}">보유 중</span>
+                          th:classappend="${asset.status == 'IN_STOCK' ? 'bg-success' :
+                                          (asset.status == 'ASSIGNED' ? 'bg-primary' :
+                                          (asset.status == 'REPAIR' ? 'bg-warning' : 'bg-danger'))}"
+                          th:text="${asset.status}">보유 중</span>
             </td>
             <td th:text="${#temporals.format(asset.createdAt, 'yyyy-MM-dd')}">2026-03-11</td>
         </tr>
         </tbody>
     </table>
-    <a href="/assets/new" class="btn btn-primary">
-        자산 등록
-    </a>
+
+    <!-- 페이징 -->
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${page.first} ? 'disabled'">
+                <a class="page-link" th:href="@{/assets(page=${page.number - 1})}">이전</a>
+            </li>
+
+            <li class="page-item" th:each="pageNum : ${#numbers.sequence(
+            (page.number - 2 < 0 ? 0 : page.number - 2),
+            (page.number + 2 >= page.totalPages ? (page.totalPages == 0 ? 0 : page.totalPages - 1) : page.number + 2))}"
+                th:classappend="${pageNum == page.number} ? 'active'">
+                <a class="page-link" th:href="@{/assets(page=${pageNum})}" th:text="${pageNum + 1}">1</a>
+            </li>
+
+            <li class="page-item" th:classappend="${page.last} ? 'disabled'">
+                <a class="page-link" th:href="@{/assets(page=${page.number + 1})}">다음</a>
+            </li>
+        </ul>
+    </nav>
+
     <th:block th:replace="~{layout/layout :: footer}"></th:block>
 </div>
 

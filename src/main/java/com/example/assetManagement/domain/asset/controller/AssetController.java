@@ -25,10 +25,12 @@ public class AssetController {
     private final AssetService assetService;
 
     @GetMapping
-    public String goToAssets(@ModelAttribute AssetSearchCondition condition,
+    public String goToAssets(@ModelAttribute("condition") AssetSearchCondition condition,
                              @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                              Model model) {
-        Page<AssetListResponse> responses = assetService.getAssets(condition, pageable);
+        Page<AssetListResponse> assetPage = assetService.getAssets(condition, pageable);
+        model.addAttribute("assets", assetPage.getContent());
+        model.addAttribute("page", assetPage);
         return "asset/assetList";
     }
 
