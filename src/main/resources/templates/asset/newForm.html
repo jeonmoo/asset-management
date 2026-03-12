@@ -21,12 +21,12 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">자산번호</label>
-                                <input type="text" th:field="*{assetNo}" class="form-control" th:classappend="${#fields.hasErrors('assetNo')} ? 'is-invalid' : ''" placeholder="IT-2026-0001" required>
+                                <input type="text" th:field="*{assetNo}" class="form-control" th:classappend="${#fields.hasErrors('assetNo')} ? 'is-invalid' : ''" placeholder="IT-2026-0001">
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('assetNo')}" th:errors="*{assetNo}"></div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">자산명</label>
-                                <input type="text" th:field="*{name}" class="form-control" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''" placeholder="맥북 프로 16인치" required>
+                                <input type="text" th:field="*{name}" class="form-control" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''" placeholder="맥북 프로 16인치">
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">카테고리</label>
-                                <select th:field="*{category}" class="form-select" th:classappend="${#fields.hasErrors('category')} ? 'is-invalid' : ''" required>
+                                <select th:field="*{category}" class="form-select" th:classappend="${#fields.hasErrors('category')} ? 'is-invalid' : ''">
                                     <option value="LAPTOP">노트북</option>
                                     <option value="MONITOR">모니터</option>
                                     <option value="PHONE">휴대폰</option>

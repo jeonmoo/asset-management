@@ -39,7 +39,7 @@ public class AssetController {
     }
 
     @PostMapping
-    public String createAsset(@Valid @ModelAttribute AssetCreateRequest request, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String createAsset(@Valid @ModelAttribute("asset") AssetCreateRequest request, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "asset/newForm";
         }
