@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>대시보드</title>
+  <th:block th:replace="~{layout/layout :: header}"></th:block>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-5">
+  <h2>자산 관리 대시보드</h2>
+
+  <div class="row mt-4">
+    <div class="col-md-3">
+      <div class="card text-white bg-secondary mb-3">
+        <div class="card-header">전체 자산</div>
+        <div class="card-body">
+          <h3 class="card-title" th:text="${dashboard.totalAssetCount}">100</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-2" th:each="stat : ${dashboard.statusCounts}">
+      <div class="card mb-3" th:classappend="${stat.status.name() == 'IN_STOCK' ? 'bg-success text-white' :
+                                                  (stat.status.name() == 'ASSIGNED' ? 'bg-primary text-white' :
+                                                  (stat.status.name() == 'REPAIR' ? 'bg-warning' : 'bg-danger text-white'))}">
+        <div class="card-header" th:text="${stat.status.description}">상태</div>
+        <div class="card-body">
+          <h3 class="card-title" th:text="${stat.count}">0</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-12">
+      <h4>최근 등록 자산 (최근 5개)</h4>
+      <table class="table table-hover mt-3">
+        <thead class="table-light">
+        <tr>
+          <th>자산번호</th>
+          <th>이름</th>
+          <th>카테고리</th>
+          <th>상태</th>
+          <th>등록일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="asset : ${dashboard.RecentAssets}">
+          <td th:text="${asset.assetNo}"></td>
+          <td th:text="${asset.name}"></td>
+          <td th:text="${asset.category}"></td>
+          <td th:text="${asset.status}"></td>
+          <td th:text="${#temporals.format(asset.createdAt, 'yyyy-MM-dd')}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<th:block th:replace="~{layout/layout :: footer}"></th:block>
+</body>
+</html>

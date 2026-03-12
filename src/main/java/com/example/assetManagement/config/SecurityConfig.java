@@ -25,7 +25,7 @@ public class SecurityConfig {
                         .frameOptions(frame -> frame.sameOrigin()) // 동일 출처에서 프레임 사용 허용
                 )
                 .formLogin(login -> login
-                        .defaultSuccessUrl("/assets", true) // 로그인 성공 시 이동할 기본 페이지
+                        .defaultSuccessUrl("/dashboard", true) // 로그인 성공 시 이동할 기본 페이지
                         .permitAll()
                 )
                 .logout(logout -> logout

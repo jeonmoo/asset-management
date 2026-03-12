@@ -6,7 +6,6 @@ import com.example.assetManagement.domain.asset.enums.AssetStatus;
 import com.example.assetManagement.domain.asset.enums.Category;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -36,13 +35,14 @@ public class AssetQueryRepository {
                 .select(new QAssetListResponse(
                         asset.assetNo,
                         asset.name,
-                        asset.category.stringValue(), // Enum -> String 변환
-                        asset.status.stringValue(), // Enum -> String 변환
+                        asset.category.stringValue(),
+                        asset.status.stringValue(),
                         asset.createdAt
                 ))
                 .from(asset)
                 .where(
-                        containName(condition.getQ())
+                        asset.isDelete.isFalse()
+                        , containName(condition.getQ())
                         , eqCategory(condition.getCategory())
                         , eqStatus(condition.getStatus())
                 )
@@ -54,7 +54,8 @@ public class AssetQueryRepository {
         JPAQuery<Long> countQuery = queryFactory.select(asset.count())
                 .from(asset)
                 .where(
-                        containName(condition.getQ())
+                        asset.isDelete.isFalse()
+                        , containName(condition.getQ())
                         , eqCategory(condition.getCategory())
                         , eqStatus(condition.getStatus())
                 );
@@ -72,7 +73,6 @@ public class AssetQueryRepository {
         for (Sort.Order order : pageable.getSort()) {
             Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
 
-            // 타입을 명시적으로 지정하여 OrderSpecifier 생성
             OrderSpecifier<?> os = switch (order.getProperty()) {
                 case "purchasedAt" -> new OrderSpecifier<>(direction, asset.purchasedAt);
                 case "name" -> new OrderSpecifier<>(direction, asset.name);
