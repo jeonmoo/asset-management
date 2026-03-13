@@ -14,8 +14,11 @@
       <a th:if="${asset.status.name() == 'IN_STOCK'}"
          th:href="@{/assets/{assetId}/assign(assetId=${asset.id})}" class="btn btn-primary">할당</a>
 
-      <a th:if="${asset.status.name() == 'ASSIGNED'}"
-         th:href="@{/assets/{assetId}/return(assetId=${asset.id})}" class="btn btn-warning">회수</a>
+      <form th:if="${asset.status.name() == 'ASSIGNED'}"
+            th:action="@{/assets/{assetId}/return(assetId=${asset.id})}"
+            method="post" style="display: inline;">
+        <button type="submit" class="btn btn-warning">회수</button>
+      </form>
     </div>
 
     <div class="ms-auto">

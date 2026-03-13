@@ -47,4 +47,8 @@ public class AssetHistory {
         this.assignedAt = LocalDateTime.now();
         this.note = note;
     }
+
+    public void returnAssetHistory() {
+        this.returnedAt = LocalDateTime.now();
+    }
 }

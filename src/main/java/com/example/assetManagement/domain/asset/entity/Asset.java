@@ -88,4 +88,8 @@ public class Asset {
     public void assign() {
         this.status = AssetStatus.ASSIGNED;
     }
+
+    public void returnAsset() {
+        this.status = AssetStatus.IN_STOCK;
+    }
 }

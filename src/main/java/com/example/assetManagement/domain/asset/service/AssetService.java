@@ -83,4 +83,9 @@ public class AssetService {
         Asset asset = findWithLockById(assetId);
         assetSupportService.assignAsset(asset, request);
     }
+
+    public void returnAsset(Long assetId) {
+        Asset asset = findWithLockById(assetId);
+        assetSupportService.returnAsset(asset);
+    }
 }

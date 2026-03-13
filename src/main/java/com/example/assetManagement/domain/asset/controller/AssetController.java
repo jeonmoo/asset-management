@@ -104,4 +104,11 @@ public class AssetController {
         redirectAttributes.addFlashAttribute("message", "성공적으로 할당 되었습니다.");
         return "redirect:/assets";
     }
+
+    @PostMapping("/{assetId}/return")
+    public String returnAsset(@PathVariable("assetId") Long assetId, RedirectAttributes redirectAttributes) {
+        assetService.returnAsset(assetId);
+        redirectAttributes.addFlashAttribute("message", "성공적으로 반납 되었습니다.");
+        return "redirect:/assets/{assetId}";
+    }
 }

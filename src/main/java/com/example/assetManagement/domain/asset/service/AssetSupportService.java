@@ -53,4 +53,18 @@ public class AssetSupportService {
         }
     }
 
+    public void returnAsset(Asset asset) {
+        validateReturn(asset);
+        AssetHistory history = assetHistoryRepository.findByAssetIdAndReturnedAtIsNull(asset.getId());
+
+        history.returnAssetHistory();
+        asset.returnAsset();
+    }
+
+    private void validateReturn(Asset asset) {
+        if (asset.getStatus() != AssetStatus.ASSIGNED) {
+            throw new GlobalException(AssetExceptionCode.ASSET_NOT_ASSIGNED);
+        }
+    }
+
 }
