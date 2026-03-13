@@ -105,4 +105,10 @@ public class AssetService {
         }
         asset.changeStatusToRepair();
     }
+
+    public void completeRepairAsset(Long assetId) {
+        Asset asset = findWithLockById(assetId);
+        assetSupportService.validateRepairAsset(asset);
+        asset.completeRepair();
+    }
 }

@@ -83,4 +83,10 @@ public class AssetSupportService {
         }
     }
 
+    public void validateRepairAsset(Asset asset) {
+        if (asset.getStatus() != AssetStatus.REPAIR) {
+            throw new GlobalException(AssetExceptionCode.NOT_REPAIR_ASSET);
+        }
+    }
+
 }

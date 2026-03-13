@@ -133,4 +133,12 @@ public class AssetController {
         redirectAttributes.addFlashAttribute("message", "수리중으로 처리 되었습니다.");
         return "redirect:/assets/{assetId}";
     }
+
+    @PostMapping("/{assetId}/repair-complete")
+    public String completeRepairAsset(@PathVariable("assetId") Long assetId, RedirectAttributes redirectAttributes) {
+        assetService.completeRepairAsset(assetId);
+        redirectAttributes.addFlashAttribute("message", "수리중으로 처리 되었습니다.");
+        return "redirect:/assets/{assetId}";
+
+    }
 }

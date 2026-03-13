@@ -95,4 +95,8 @@ public class Asset {
     public void changeStatusToRepair() {
         this.status = AssetStatus.REPAIR;
     }
+
+    public void completeRepair() {
+        this.status = AssetStatus.IN_STOCK;
+    }
 }
