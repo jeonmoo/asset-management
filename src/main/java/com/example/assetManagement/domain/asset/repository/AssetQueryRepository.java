@@ -37,7 +37,7 @@ public class AssetQueryRepository {
                         asset.assetNo,
                         asset.name,
                         asset.category.stringValue(),
-                        asset.status.stringValue(),
+                        asset.status,
                         asset.createdAt
                 ))
                 .from(asset)
