@@ -57,9 +57,9 @@ public class AssetService {
         return assetMapper.toAssetDetailResponse(asset, histories);
     }
 
-    public void registerAsset(AssetCreateRequest request) {
+    public void createAsset(AssetCreateRequest request) {
         assetSupportService.validateCreate(request.getAssetNo());
-        Asset asset = assetSupportService.mapToAsset(request);
+        Asset asset = assetMapper.toAsset(request);
         assetRepository.save(asset);
     }
 

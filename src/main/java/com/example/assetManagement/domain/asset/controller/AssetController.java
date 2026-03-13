@@ -48,7 +48,7 @@ public class AssetController {
         }
 
         try {
-            assetService.registerAsset(request);
+            assetService.createAsset(request);
         } catch (GlobalException e) {
             bindingResult.rejectValue("assetNo", "duplicate", e.getMessage());
             return "asset/newForm";

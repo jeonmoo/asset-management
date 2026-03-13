@@ -7,6 +7,7 @@ import com.example.assetManagement.domain.asset.dto.assign.AssetAssignRequest;
 import com.example.assetManagement.domain.asset.entity.Asset;
 import com.example.assetManagement.domain.asset.entity.AssetHistory;
 import com.example.assetManagement.domain.asset.enums.AssetStatus;
+import com.example.assetManagement.domain.asset.mapper.AssetHistoryMapper;
 import com.example.assetManagement.domain.asset.repository.AssetRepository;
 import com.example.assetManagement.domain.asset.repository.assetHistory.AssetHistoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,26 +22,7 @@ public class AssetSupportService {
     private final AssetRepository assetRepository;
     private final AssetHistoryRepository assetHistoryRepository;
 
-    public Asset mapToAsset(AssetCreateRequest request) {
-        return Asset.builder()
-                .assetNo(request.getAssetNo())
-                .name(request.getName())
-                .category(request.getCategory())
-                .serialNo(request.getSerialNo())
-                .purchasedAt(request.getPurchasedAt().atStartOfDay())
-                .memo(request.getMemo())
-                .build();
-    }
-
-    public AssetHistory mapToAssetHistory(Asset asset, AssetAssignRequest request) {
-        return AssetHistory.builder()
-                .asset(asset)
-                .assigneeName(request.getAssigneeName())
-                .assigneeEmail(request.getAssigneeEmail())
-                .department(request.getDepartment())
-                .note(request.getNote())
-                .build();
-    }
+    private final AssetHistoryMapper assetHistoryMapper;
 
     public void validateCreate(String assetNo) {
         Boolean isDuplicated = assetRepository.existsByAssetNo(assetNo);
@@ -59,7 +41,7 @@ public class AssetSupportService {
     public void assignAsset(Asset asset, AssetAssignRequest request) {
         validateAssign(asset);
         asset.assign();
-        AssetHistory assetHistory = mapToAssetHistory(asset, request);
+        AssetHistory assetHistory = assetHistoryMapper.toAssetHistory(asset, request);
         assetHistoryRepository.save(assetHistory);
     }
 
