@@ -58,6 +58,7 @@ public class AssetService {
     }
 
     public void registerAsset(AssetCreateRequest request) {
+        assetSupportService.validateCreate(request.getAssetNo());
         Asset asset = assetSupportService.mapToAsset(request);
         assetRepository.save(asset);
     }

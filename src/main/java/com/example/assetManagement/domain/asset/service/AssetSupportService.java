@@ -42,6 +42,13 @@ public class AssetSupportService {
                 .build();
     }
 
+    public void validateCreate(String assetNo) {
+        Boolean isDuplicated = assetRepository.existsByAssetNo(assetNo);
+        if (isDuplicated) {
+            throw new GlobalException(AssetExceptionCode.EXISTS_ASSET_NO);
+        }
+    }
+
     public void validateModify(Long assetId, String assetNo) {
         Boolean isDuplicated = assetRepository.existsByIdAndAssetNoNot(assetId, assetNo);
         if (isDuplicated) {

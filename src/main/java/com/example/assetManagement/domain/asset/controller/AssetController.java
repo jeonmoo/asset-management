@@ -1,5 +1,6 @@
 package com.example.assetManagement.domain.asset.controller;
 
+import com.example.assetManagement.common.exception.GlobalException;
 import com.example.assetManagement.domain.asset.dto.*;
 import com.example.assetManagement.domain.asset.dto.assign.AssetAssignFormResponse;
 import com.example.assetManagement.domain.asset.dto.assign.AssetAssignRequest;
@@ -45,7 +46,14 @@ public class AssetController {
         if (bindingResult.hasErrors()) {
             return "asset/newForm";
         }
-        assetService.registerAsset(request);
+
+        try {
+            assetService.registerAsset(request);
+        } catch (GlobalException e) {
+            bindingResult.rejectValue("assetNo", "duplicate", e.getMessage());
+            return "asset/newForm";
+        }
+
         redirectAttributes.addFlashAttribute("message", "성공적으로 등록되었습니다.");
         return "redirect:/assets";
     }
@@ -72,7 +80,13 @@ public class AssetController {
             return "asset/editForm";
         }
 
-        assetService.modifyAsset(assetId, request);
+        try {
+            assetService.modifyAsset(assetId, request);
+        } catch (GlobalException e) {
+            bindingResult.rejectValue("assetNo", "duplicate", e.getMessage());
+            return "asset/editForm";
+        }
+
         redirectAttributes.addFlashAttribute("message", "수정 되었습니다.");
         return "redirect:/assets/{assetId}";
     }

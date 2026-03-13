@@ -23,7 +23,6 @@ public class AssetModifyRequest {
     @NotNull(message = "자산 ID는 필수입니다.")
     private Long id;
 
-//    @UniqueAssetNo
     @NotBlank(message = "자산 번호는 필수입니다.")
     @Size(max = 50, message = "자산 번호는 50자 이내여야 합니다.")
     private String assetNo;
