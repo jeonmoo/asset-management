@@ -96,18 +96,22 @@
     <nav aria-label="Page navigation" class="mt-4">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${page.first} ? 'disabled'">
-                <a class="page-link" th:href="@{/assets(page=${page.number - 1})}">이전</a>
+                <a class="page-link"
+                   th:href="@{/assets(page=${page.number - 1}, q=${condition.q}, category=${condition.category}, status=${condition.status})}">이전</a>
             </li>
 
             <li class="page-item" th:each="pageNum : ${#numbers.sequence(
             (page.number - 2 < 0 ? 0 : page.number - 2),
             (page.number + 2 >= page.totalPages ? (page.totalPages == 0 ? 0 : page.totalPages - 1) : page.number + 2))}"
                 th:classappend="${pageNum == page.number} ? 'active'">
-                <a class="page-link" th:href="@{/assets(page=${pageNum})}" th:text="${pageNum + 1}">1</a>
+                <a class="page-link"
+                   th:href="@{/assets(page=${pageNum}, q=${condition.q}, category=${condition.category}, status=${condition.status})}"
+                   th:text="${pageNum + 1}">1</a>
             </li>
 
             <li class="page-item" th:classappend="${page.last} ? 'disabled'">
-                <a class="page-link" th:href="@{/assets(page=${page.number + 1})}">다음</a>
+                <a class="page-link"
+                   th:href="@{/assets(page=${page.number + 1}, q=${condition.q}, category=${condition.category}, status=${condition.status})}">다음</a>
             </li>
         </ul>
     </nav>
