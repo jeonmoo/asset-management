@@ -50,7 +50,7 @@ public class AssetSupportService {
     }
 
     public void validateModify(Long assetId, String assetNo) {
-        Boolean isDuplicated = assetRepository.existsByIdAndAssetNoNot(assetId, assetNo);
+        Boolean isDuplicated = assetRepository.existsByAssetNoAndIdNot(assetNo, assetId);
         if (isDuplicated) {
             throw new GlobalException(AssetExceptionCode.EXISTS_ASSET_NO);
         }

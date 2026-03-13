@@ -16,5 +16,5 @@ public interface AssetRepository extends JpaRepository<Asset, Long> {
 
     Boolean existsByAssetNo(String assetNo);
 
-    Boolean existsByIdAndAssetNoNot(Long id, String assetNo);
+    Boolean existsByAssetNoAndIdNot(String assetNo, Long id);
 }
