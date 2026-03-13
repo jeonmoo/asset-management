@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class AssetModifyRequest {
 
     @NotNull(message = "자산 ID는 필수입니다.")
-    private Long id; // 수정할 대상 식별자
+    private Long id;
 
     @UniqueAssetNo
     @NotBlank(message = "자산 번호는 필수입니다.")

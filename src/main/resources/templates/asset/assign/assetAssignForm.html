@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>자산 할당</title>
+  <th:block th:replace="~{layout/layout :: header}"></th:block>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-5">
+  <h2>자산 할당</h2>
+
+  <div class="card mt-3">
+    <div class="card-body">
+      <h5 th:text="|자산 번호: ${asset.assetNo} / 자산명: ${asset.name}|"></h5>
+    </div>
+  </div>
+
+  <form th:action="@{/assets/{id}/assign(id=${asset.id})}" th:object="${asset}" method="post" class="mt-4">
+    <input type="hidden" th:field="*{id}">
+
+    <div class="mb-3">
+      <label class="form-label">사용자 이름</label>
+      <input type="text" th:field="*{assigneeName}" class="form-control" th:errorclass="is-invalid">
+      <div class="invalid-feedback" th:errors="*{assigneeName}"></div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">사용자 이메일</label>
+      <input type="email" th:field="*{assigneeEmail}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">부서</label>
+      <input type="text" th:field="*{department}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">메모</label>
+      <textarea th:field="*{note}" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">할당 완료</button>
+    <a th:href="@{/assets/{assetId}(assetId=${asset.id})}" class="btn btn-secondary">취소</a>
+  </form>
+</div>
+
+<th:block th:replace="~{layout/layout :: footer}"></th:block>
+</body>
+</html>

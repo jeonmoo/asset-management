@@ -12,14 +12,14 @@
   <div class="d-flex mt-3">
     <div>
       <a th:if="${asset.status.name() == 'IN_STOCK'}"
-         th:href="@{/assets/{id}/assign(id=${asset.id})}" class="btn btn-primary">할당</a>
+         th:href="@{/assets/{assetId}/assign(assetId=${asset.id})}" class="btn btn-primary">할당</a>
 
       <a th:if="${asset.status.name() == 'ASSIGNED'}"
-         th:href="@{/assets/{id}/return(id=${asset.id})}" class="btn btn-warning">회수</a>
+         th:href="@{/assets/{assetId}/return(assetId=${asset.id})}" class="btn btn-warning">회수</a>
     </div>
 
     <div class="ms-auto">
-      <a th:href="@{/assets/{id}/edit(id=${asset.id})}" class="btn btn-outline-primary">수정</a>
+      <a th:href="@{/assets/{assetId}/edit(assetId=${asset.id})}" class="btn btn-outline-primary">수정</a>
     </div>
   </div>
 

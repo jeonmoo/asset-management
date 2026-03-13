@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum AssetExceptionCode implements ExceptionCode {
     NOT_FOUND_ASSET("없는 자산 입니다."),
+    NOT_AVAILABLE_ASSET("보유중인 자산이 아닙니다."),
     ;
 
     private final String message;

@@ -84,4 +84,8 @@ public class Asset {
         this.isDelete = true;
         this.deletedAt = LocalDateTime.now();
     }
+
+    public void assign() {
+        this.status = AssetStatus.ASSIGNED;
+    }
 }

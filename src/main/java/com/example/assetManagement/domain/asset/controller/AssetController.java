@@ -1,6 +1,8 @@
 package com.example.assetManagement.domain.asset.controller;
 
 import com.example.assetManagement.domain.asset.dto.*;
+import com.example.assetManagement.domain.asset.dto.assign.AssetAssignFormResponse;
+import com.example.assetManagement.domain.asset.dto.assign.AssetAssignRequest;
 import com.example.assetManagement.domain.asset.service.AssetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +65,7 @@ public class AssetController {
     }
 
     @PostMapping("/{assetId}/edit")
-    public String modifyAsset(@PathVariable("assetId") Long assetId,  @Valid @ModelAttribute("asset") AssetModifyRequest request,
+    public String modifyAsset(@PathVariable("assetId") Long assetId, @Valid @ModelAttribute("asset") AssetModifyRequest request,
                               BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("assetId", assetId);
@@ -89,4 +91,17 @@ public class AssetController {
                 .toUriString();
     }
 
+    @GetMapping("/{assetId}/assign")
+    public String goToAssignForm(@PathVariable("assetId") Long assetId, Model model) {
+        AssetAssignFormResponse asset = assetService.getAssetWithAssignForm(assetId);
+        model.addAttribute("asset", asset);
+        return "asset/assign/assetAssignForm";
+    }
+
+    @PostMapping("/{assetId}/assign")
+    public String assignAsset(@PathVariable("assetId") Long assetId, AssetAssignRequest request, RedirectAttributes redirectAttributes) {
+        assetService.assignAsset(assetId, request);
+        redirectAttributes.addFlashAttribute("message", "성공적으로 할당 되었습니다.");
+        return "redirect:/assets";
+    }
 }

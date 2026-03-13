@@ -3,6 +3,8 @@ package com.example.assetManagement.domain.asset.service;
 import com.example.assetManagement.common.exception.GlobalException;
 import com.example.assetManagement.common.exception.exceptionCode.AssetExceptionCode;
 import com.example.assetManagement.domain.asset.dto.*;
+import com.example.assetManagement.domain.asset.dto.assign.AssetAssignFormResponse;
+import com.example.assetManagement.domain.asset.dto.assign.AssetAssignRequest;
 import com.example.assetManagement.domain.asset.entity.Asset;
 import com.example.assetManagement.domain.asset.enums.AssetStatus;
 import com.example.assetManagement.domain.asset.enums.Category;
@@ -27,25 +29,34 @@ public class AssetService {
     private final AssetQueryRepository assetQueryRepository;
     private final AssetMapper assetMapper;
 
+    private Asset findWithLockById(Long assetId) {
+        return assetRepository.findWithLockById(assetId)
+                .orElseThrow(() -> new GlobalException(AssetExceptionCode.NOT_FOUND_ASSET));
+    }
+
+    private Asset findById(Long assetId) {
+        return assetRepository.findById(assetId)
+                .orElseThrow(() -> new GlobalException(AssetExceptionCode.NOT_FOUND_ASSET));
+    }
+
     @Transactional(readOnly = true)
     public Page<AssetListResponse> getAssets(AssetSearchCondition condition, Pageable pageable) {
         return assetQueryRepository.findByAsset(condition, pageable);
     }
 
+    @Transactional(readOnly = true)
     public AssetDetailResponse getAsset(Long assetId) {
-        Asset asset = assetRepository.findById(assetId)
-                .orElseThrow(() -> new GlobalException(AssetExceptionCode.NOT_FOUND_ASSET));
+        Asset asset = findById(assetId);
         return assetMapper.toAssetDetailResponse(asset);
     }
 
     public void registerAsset(AssetCreateRequest request) {
-        Asset asset = assetSupportService.mapToEntity(request);
+        Asset asset = assetSupportService.mapToAsset(request);
         assetRepository.save(asset);
     }
 
     public void modifyAsset(Long assetId, AssetModifyRequest request) {
-        Asset asset = assetRepository.findWithLockById(assetId)
-                .orElseThrow(() -> new GlobalException(AssetExceptionCode.NOT_FOUND_ASSET));
+        Asset asset = findWithLockById(assetId);
 
         String assetNo = request.getAssetNo();
         String serialNo = request.getSerialNo();
@@ -58,9 +69,18 @@ public class AssetService {
     }
 
     public void deleteAsset(Long assetId) {
-        Asset asset = assetRepository.findWithLockById(assetId)
-                .orElseThrow(() -> new GlobalException(AssetExceptionCode.NOT_FOUND_ASSET));
-
+        Asset asset = findWithLockById(assetId);
         asset.softDelete();
+    }
+
+    @Transactional(readOnly = true)
+    public AssetAssignFormResponse getAssetWithAssignForm(Long assetId) {
+        Asset asset = findById(assetId);
+        return assetMapper.toAssetAssignFormResponse(asset);
+    }
+
+    public void assignAsset(Long assetId, AssetAssignRequest request) {
+        Asset asset = findWithLockById(assetId);
+        assetSupportService.assignAsset(asset, request);
     }
 }

@@ -20,7 +20,7 @@ public class AssetHistory {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "asset_no", nullable = false)
+    @JoinColumn(name = "asset_id", nullable = false)
     private Asset asset;
 
     @Column(nullable = false)
@@ -44,6 +44,7 @@ public class AssetHistory {
         this.assigneeName = assigneeName;
         this.assigneeEmail = assigneeEmail;
         this.department = department;
+        this.assignedAt = LocalDateTime.now();
         this.note = note;
     }
 }
