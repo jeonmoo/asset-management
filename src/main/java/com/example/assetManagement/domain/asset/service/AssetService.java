@@ -54,7 +54,8 @@ public class AssetService {
     public AssetDetailResponse getAssetDetail(Long assetId) {
         Asset asset = findById(assetId);
         List<AssetHistory> histories = assetHistoryRepository.findByAssetIdOrderByCreatedAtDesc(assetId);
-        return assetMapper.toAssetDetailResponse(asset, histories);
+        AssetHistory currentHistory = assetSupportService.getCurrentAssignHistory(histories).orElse(null);
+        return assetMapper.toAssetDetailResponse(asset, histories, currentHistory);
     }
 
     public void createAsset(AssetCreateRequest request) {

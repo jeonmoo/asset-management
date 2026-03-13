@@ -24,6 +24,7 @@ public class AssetDetailResponse {
     private String name;
     private Category category;
     private AssetStatus status;
+    private String assigneeName;
     private String serialNo;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate purchasedAt;

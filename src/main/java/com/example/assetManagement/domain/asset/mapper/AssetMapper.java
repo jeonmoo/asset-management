@@ -26,7 +26,12 @@ public interface AssetMapper {
         return date.atStartOfDay(); // 00:00:00으로 변환
     }
 
-    AssetDetailResponse toAssetDetailResponse(Asset asset, List<AssetHistory> histories);
+    @Mapping(target = "id", source = "asset.id")
+    @Mapping(target = "createdAt", source = "asset.createdAt")
+    @Mapping(target = "updatedAt", source = "asset.updatedAt")
+    @Mapping(target = "assigneeName", source = "currentHistory.assigneeName")
+    @Mapping(target = "histories", source = "histories")
+    AssetDetailResponse toAssetDetailResponse(Asset asset, List<AssetHistory> histories, AssetHistory currentHistory);
 
     AssetAssignFormResponse toAssetAssignFormResponse(Asset asset);
 }

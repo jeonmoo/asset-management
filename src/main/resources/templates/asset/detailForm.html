@@ -26,9 +26,6 @@
         <button type="submit" class="btn btn-warning">수리 요청</button>
       </form>
 
-<!--      <a th:if="${asset.status.name() == 'REPAIR'}"-->
-<!--         th:href="@{/assets/{assetId}/assign(assetId=${asset.id})}" class="btn btn-primary">수리 완료 처리</a>-->
-
       <form th:if="${asset.status.name() == 'REPAIR'}"
             th:action="@{/assets/{assetId}/repair-complete(assetId=${asset.id})}"
             method="post" style="display: inline;">
@@ -57,7 +54,10 @@
         <dd class="col-sm-9" th:text="${asset.category}"></dd>
 
         <dt class="col-sm-3">상태</dt>
-        <dd class="col-sm-9" th:text="${asset.status}"></dd>
+        <dd class="col-sm-9" th:text="${asset.status.description}"></dd>
+
+        <dt class="col-sm-3">현재 사용자</dt>
+        <dd class="col-sm-9" th:text="${asset.assigneeName}"></dd>
 
         <dt class="col-sm-3">구매일</dt>
         <dd class="col-sm-9" th:text="${#temporals.format(asset.purchasedAt, 'yyyy-MM-dd')}"></dd>
