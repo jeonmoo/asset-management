@@ -66,13 +66,14 @@ public class AssetController {
 
     @PostMapping("/{assetId}/edit")
     public String modifyAsset(@PathVariable("assetId") Long assetId, @Valid @ModelAttribute("asset") AssetModifyRequest request,
-                              BindingResult bindingResult, Model model) {
+                              RedirectAttributes redirectAttributes, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("assetId", assetId);
             return "asset/editForm";
         }
 
         assetService.modifyAsset(assetId, request);
+        redirectAttributes.addFlashAttribute("message", "수정 되었습니다.");
         return "redirect:/assets/{assetId}";
     }
 
@@ -82,7 +83,7 @@ public class AssetController {
                               RedirectAttributes redirectAttributes) {
 
         assetService.deleteAsset(assetId);
-        redirectAttributes.addFlashAttribute("message", "삭제되었습니다.");
+        redirectAttributes.addFlashAttribute("message", "삭제 되었습니다.");
         return UriComponentsBuilder.fromPath("redirect:/assets")
                 .queryParam("q", condition.getQ())
                 .queryParam("category", condition.getCategory())

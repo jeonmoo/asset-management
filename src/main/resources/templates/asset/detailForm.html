@@ -19,6 +19,12 @@
             method="post" style="display: inline;">
         <button type="submit" class="btn btn-warning">회수</button>
       </form>
+
+      <a th:if="${asset.status.name() != 'REPAIR'}"
+         th:href="@{/assets/{assetId}/assign(assetId=${asset.id})}" class="btn btn-primary">수리</a>
+
+      <a th:if="${asset.status.name() == 'REPAIR'}"
+         th:href="@{/assets/{assetId}/assign(assetId=${asset.id})}" class="btn btn-primary">수리 완료</a>
     </div>
 
     <div class="ms-auto">

@@ -49,10 +49,11 @@
     <div class="row">
       <div class="col-md-6 mb-3">
         <label class="form-label">상태</label>
-        <select th:field="*{status}" class="form-select">
+        <select th:field="*{status}" class="form-select" disabled>
           <option th:each="stat : ${T(com.example.assetManagement.domain.asset.enums.AssetStatus).values()}"
-                  th:value="${stat}" th:text="${stat.name()}"></option>
+                  th:value="${stat}" th:text="${stat.description}"></option>
         </select>
+        <input type="hidden" th:field="*{status}" />
       </div>
       <div class="col-md-6 mb-3">
         <label class="form-label">구매일</label>

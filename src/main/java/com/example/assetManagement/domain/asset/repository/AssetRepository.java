@@ -15,4 +15,6 @@ public interface AssetRepository extends JpaRepository<Asset, Long> {
     Optional<Asset> findWithLockById(Long id);
 
     Boolean existsByAssetNo(String assetNo);
+
+    Boolean existsByIdAndAssetNoNot(Long id, String assetNo);
 }

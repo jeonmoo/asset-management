@@ -70,12 +70,11 @@ public class Asset {
         this.isDelete = false;
     }
 
-    public void updateInfo(String assetNo, String serialNo, String name, Category category, AssetStatus status, LocalDate purchasedAt, String memo) {
+    public void updateInfo(String assetNo, String serialNo, String name, Category category, LocalDate purchasedAt, String memo) {
         this.assetNo = assetNo;
         this.serialNo = serialNo;
         this.name = name;
         this.category = category;
-        this.status = AssetStatus.IN_STOCK;
         this.purchasedAt = purchasedAt.atStartOfDay();
         this.memo = memo;
     }

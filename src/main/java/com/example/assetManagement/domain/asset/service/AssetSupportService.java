@@ -7,6 +7,7 @@ import com.example.assetManagement.domain.asset.dto.assign.AssetAssignRequest;
 import com.example.assetManagement.domain.asset.entity.Asset;
 import com.example.assetManagement.domain.asset.entity.AssetHistory;
 import com.example.assetManagement.domain.asset.enums.AssetStatus;
+import com.example.assetManagement.domain.asset.repository.AssetRepository;
 import com.example.assetManagement.domain.asset.repository.assetHistory.AssetHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AssetSupportService {
 
+    private final AssetRepository assetRepository;
     private final AssetHistoryRepository assetHistoryRepository;
 
     public Asset mapToAsset(AssetCreateRequest request) {
@@ -38,6 +40,13 @@ public class AssetSupportService {
                 .department(request.getDepartment())
                 .note(request.getNote())
                 .build();
+    }
+
+    public void validateModify(Long assetId, String assetNo) {
+        Boolean isDuplicated = assetRepository.existsByIdAndAssetNoNot(assetId, assetNo);
+        if (isDuplicated) {
+            throw new GlobalException(AssetExceptionCode.EXISTS_ASSET_NO);
+        }
     }
 
     public void assignAsset(Asset asset, AssetAssignRequest request) {

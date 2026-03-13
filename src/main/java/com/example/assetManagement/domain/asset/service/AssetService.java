@@ -63,16 +63,17 @@ public class AssetService {
     }
 
     public void modifyAsset(Long assetId, AssetModifyRequest request) {
+        assetSupportService.validateModify(assetId, request.getAssetNo());
+
         Asset asset = findWithLockById(assetId);
 
         String assetNo = request.getAssetNo();
         String serialNo = request.getSerialNo();
         String name = request.getName();
         Category category = request.getCategory();
-        AssetStatus status = request.getStatus();
         LocalDate purchasedAt = request.getPurchasedAt();
         String memo = request.getMemo();
-        asset.updateInfo(assetNo, serialNo, name, category, status, purchasedAt, memo);
+        asset.updateInfo(assetNo, serialNo, name, category, purchasedAt, memo);
     }
 
     public void deleteAsset(Long assetId) {

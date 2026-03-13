@@ -23,7 +23,7 @@ public class AssetModifyRequest {
     @NotNull(message = "자산 ID는 필수입니다.")
     private Long id;
 
-    @UniqueAssetNo
+//    @UniqueAssetNo
     @NotBlank(message = "자산 번호는 필수입니다.")
     @Size(max = 50, message = "자산 번호는 50자 이내여야 합니다.")
     private String assetNo;
@@ -35,7 +35,7 @@ public class AssetModifyRequest {
     @NotNull(message = "카테고리를 선택해주세요.")
     private Category category;
 
-    private AssetStatus status; // 등록 시 기본값으로 설정하므로, 수정 시엔 선택 사항일 수 있음
+    private AssetStatus status;
 
     private String serialNo;
 
