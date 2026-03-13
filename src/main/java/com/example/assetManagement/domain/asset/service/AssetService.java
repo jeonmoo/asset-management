@@ -97,4 +97,12 @@ public class AssetService {
         Asset asset = findWithLockById(assetId);
         assetSupportService.returnAsset(asset);
     }
+
+    public void repairAsset(Long assetId) {
+        Asset asset = findWithLockById(assetId);
+        if (asset.getStatus() == AssetStatus.ASSIGNED) {
+            assetSupportService.returnAsset(asset);
+        }
+        asset.changeStatusToRepair();
+    }
 }

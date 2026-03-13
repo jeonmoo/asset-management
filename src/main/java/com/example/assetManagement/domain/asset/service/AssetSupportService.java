@@ -71,7 +71,7 @@ public class AssetSupportService {
 
     public void returnAsset(Asset asset) {
         validateReturn(asset);
-        AssetHistory history = assetHistoryRepository.findByAssetIdAndReturnedAtIsNull(asset.getId());
+        AssetHistory history = assetHistoryRepository.findWithLockByAssetIdAndReturnedAtIsNull(asset.getId());
 
         history.returnAssetHistory();
         asset.returnAsset();

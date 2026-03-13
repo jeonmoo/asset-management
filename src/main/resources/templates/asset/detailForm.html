@@ -17,14 +17,23 @@
       <form th:if="${asset.status.name() == 'ASSIGNED'}"
             th:action="@{/assets/{assetId}/return(assetId=${asset.id})}"
             method="post" style="display: inline;">
-        <button type="submit" class="btn btn-warning">회수</button>
+        <button type="submit" class="btn btn-info">회수</button>
       </form>
 
-      <a th:if="${asset.status.name() != 'REPAIR'}"
-         th:href="@{/assets/{assetId}/assign(assetId=${asset.id})}" class="btn btn-primary">수리</a>
+      <form th:if="${asset.status.name() != 'REPAIR'}"
+            th:action="@{/assets/{assetId}/repair(assetId=${asset.id})}"
+            method="post" style="display: inline;">
+        <button type="submit" class="btn btn-warning">수리 요청</button>
+      </form>
 
-      <a th:if="${asset.status.name() == 'REPAIR'}"
-         th:href="@{/assets/{assetId}/assign(assetId=${asset.id})}" class="btn btn-primary">수리 완료</a>
+<!--      <a th:if="${asset.status.name() == 'REPAIR'}"-->
+<!--         th:href="@{/assets/{assetId}/assign(assetId=${asset.id})}" class="btn btn-primary">수리 완료 처리</a>-->
+
+      <form th:if="${asset.status.name() == 'REPAIR'}"
+            th:action="@{/assets/{assetId}/repair-complete(assetId=${asset.id})}"
+            method="post" style="display: inline;">
+        <button type="submit" class="btn btn-warning">수리 완료 처리</button>
+      </form>
     </div>
 
     <div class="ms-auto">
