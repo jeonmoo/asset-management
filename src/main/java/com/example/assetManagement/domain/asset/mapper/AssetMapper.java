@@ -33,5 +33,9 @@ public interface AssetMapper {
     @Mapping(target = "histories", source = "histories")
     AssetDetailResponse toAssetDetailResponse(Asset asset, List<AssetHistory> histories, AssetHistory currentHistory);
 
+    @Mapping(target = "assigneeName", ignore = true)
+    @Mapping(target = "assigneeEmail", ignore = true)
+    @Mapping(target = "department", ignore = true)
+    @Mapping(target = "note", ignore = true)
     AssetAssignFormResponse toAssetAssignFormResponse(Asset asset);
 }
