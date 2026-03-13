@@ -46,10 +46,10 @@ public class AssetQueryRepository {
                 .leftJoin(assetHistory).on(asset.id.eq(assetHistory.asset.id)
                         .and(assetHistory.returnedAt.isNull()))
                 .where(
-                        asset.isDelete.isFalse()
-                        , containName(condition.getQ())
+                        containName(condition.getQ())
                         , eqCategory(condition.getCategory())
                         , eqStatus(condition.getStatus())
+                        , asset.isDelete.isFalse()
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -59,10 +59,10 @@ public class AssetQueryRepository {
         JPAQuery<Long> countQuery = queryFactory.select(asset.count())
                 .from(asset)
                 .where(
-                        asset.isDelete.isFalse()
-                        , containName(condition.getQ())
+                        containName(condition.getQ())
                         , eqCategory(condition.getCategory())
                         , eqStatus(condition.getStatus())
+                        , asset.isDelete.isFalse()
                 );
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
