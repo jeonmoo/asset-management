@@ -18,15 +18,17 @@ public class AssetListResponse {
     private String name;
     private String category;
     private AssetStatus status;
+    private String assigneeName;
     private LocalDateTime createdAt;
 
     @QueryProjection // 빌드 시 QAssetListResponse 생성
-    public AssetListResponse(Long id, String assetNo, String name, String category, AssetStatus status, LocalDateTime createdAt) {
+    public AssetListResponse(Long id, String assetNo, String name, String category, AssetStatus status, String assigneeName, LocalDateTime createdAt) {
         this.id = id;
         this.assetNo = assetNo;
         this.name = name;
         this.category = category;
         this.status = status;
+        this.assigneeName = assigneeName;
         this.createdAt = createdAt;
     }
 }

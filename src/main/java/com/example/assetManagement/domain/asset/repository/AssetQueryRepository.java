@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.example.assetManagement.domain.asset.entity.QAsset.asset;
+import static com.example.assetManagement.domain.asset.entity.QAssetHistory.assetHistory;
 import com.example.assetManagement.domain.asset.dto.QAssetListResponse;
 
 @Repository
@@ -38,9 +39,12 @@ public class AssetQueryRepository {
                         asset.name,
                         asset.category.stringValue(),
                         asset.status,
+                        assetHistory.assigneeName,
                         asset.createdAt
                 ))
                 .from(asset)
+                .leftJoin(assetHistory).on(asset.id.eq(assetHistory.asset.id)
+                        .and(assetHistory.returnedAt.isNull()))
                 .where(
                         asset.isDelete.isFalse()
                         , containName(condition.getQ())
