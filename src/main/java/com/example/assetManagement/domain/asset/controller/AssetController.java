@@ -52,14 +52,14 @@ public class AssetController {
 
     @GetMapping("/{assetId}")
     public String goToAssetDetail(@PathVariable("assetId") Long assetId, Model model) {
-        AssetDetailResponse asset = assetService.getAsset(assetId);
+        AssetDetailResponse asset = assetService.getAssetDetail(assetId);
         model.addAttribute("asset", asset);
         return "asset/detailForm";
     }
 
     @GetMapping("/{assetId}/edit")
     public String goToModifyAsset(@PathVariable("assetId") Long assetId, Model model) {
-        AssetDetailResponse asset = assetService.getAsset(assetId);
+        AssetDetailResponse asset = assetService.getAssetDetail(assetId);
         model.addAttribute("asset", asset);
         return "asset/editForm";
     }

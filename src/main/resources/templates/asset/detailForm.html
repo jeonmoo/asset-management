@@ -69,7 +69,7 @@
     </thead>
     <tbody>
     <tr th:each="history : ${asset.histories}">
-      <td th:text="${history.userName}">홍길동</td>
+      <td th:text="${history.assigneeName}">홍길동</td>
       <td th:text="${#temporals.format(history.assignedAt, 'yyyy-MM-dd')}">2026-03-11</td>
       <td th:text="${history.returnedAt != null ? #temporals.format(history.returnedAt, 'yyyy-MM-dd') : '-'}">-</td>
     </tr>

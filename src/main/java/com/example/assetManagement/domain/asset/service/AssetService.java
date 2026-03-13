@@ -6,11 +6,13 @@ import com.example.assetManagement.domain.asset.dto.*;
 import com.example.assetManagement.domain.asset.dto.assign.AssetAssignFormResponse;
 import com.example.assetManagement.domain.asset.dto.assign.AssetAssignRequest;
 import com.example.assetManagement.domain.asset.entity.Asset;
+import com.example.assetManagement.domain.asset.entity.AssetHistory;
 import com.example.assetManagement.domain.asset.enums.AssetStatus;
 import com.example.assetManagement.domain.asset.enums.Category;
 import com.example.assetManagement.domain.asset.mapper.AssetMapper;
 import com.example.assetManagement.domain.asset.repository.AssetQueryRepository;
 import com.example.assetManagement.domain.asset.repository.AssetRepository;
+import com.example.assetManagement.domain.asset.repository.assetHistory.AssetHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +28,11 @@ import java.time.LocalDate;
 public class AssetService {
 
     private final AssetSupportService assetSupportService;
+
     private final AssetRepository assetRepository;
     private final AssetQueryRepository assetQueryRepository;
+    private final AssetHistoryRepository assetHistoryRepository;
+
     private final AssetMapper assetMapper;
 
     private Asset findWithLockById(Long assetId) {
@@ -45,9 +51,10 @@ public class AssetService {
     }
 
     @Transactional(readOnly = true)
-    public AssetDetailResponse getAsset(Long assetId) {
+    public AssetDetailResponse getAssetDetail(Long assetId) {
         Asset asset = findById(assetId);
-        return assetMapper.toAssetDetailResponse(asset);
+        List<AssetHistory> histories = assetHistoryRepository.findByAssetIdOrderByCreatedAtDesc(assetId);
+        return assetMapper.toAssetDetailResponse(asset, histories);
     }
 
     public void registerAsset(AssetCreateRequest request) {
