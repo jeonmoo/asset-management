@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <form th:action="@{/assets/{id}/assign(id=${asset.id})}" th:object="${asset}" method="post" class="mt-4">
+  <form th:action="@{/assets/{id}/assign(id=${asset.id})}" th:object="${assignRequest}" method="post" class="mt-4">
     <input type="hidden" th:field="*{id}">
 
     <div class="mb-3">

@@ -110,11 +110,18 @@ public class AssetController {
     public String goToAssignForm(@PathVariable("assetId") Long assetId, Model model) {
         AssetAssignFormResponse asset = assetService.getAssetWithAssignForm(assetId);
         model.addAttribute("asset", asset);
+        model.addAttribute("assignRequest", new AssetAssignRequest());
         return "asset/assign/assetAssignForm";
     }
 
     @PostMapping("/{assetId}/assign")
-    public String assignAsset(@PathVariable("assetId") Long assetId, AssetAssignRequest request, RedirectAttributes redirectAttributes) {
+    public String assignAsset(@PathVariable("assetId") Long assetId, @Valid @ModelAttribute("assignRequest") AssetAssignRequest request,
+                              BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        if (bindingResult.hasErrors()) {
+            AssetAssignFormResponse asset = assetService.getAssetWithAssignForm(assetId);
+            model.addAttribute("asset", asset);
+            return "asset/assign/assetAssignForm";
+        }
         assetService.assignAsset(assetId, request);
         redirectAttributes.addFlashAttribute("message", "성공적으로 할당 되었습니다.");
         return "redirect:/assets";
