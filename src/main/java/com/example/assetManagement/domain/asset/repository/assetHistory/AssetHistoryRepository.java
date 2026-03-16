@@ -18,5 +18,5 @@ public interface AssetHistoryRepository extends JpaRepository<AssetHistory, Long
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     AssetHistory findWithLockByAssetIdAndReturnedAtIsNull(Long assetId);
 
-    List<AssetHistory> findByAssetIdOrderByCreatedAtDesc(Long assetId);
+    List<AssetHistory> findByAssetIdOrderByAssignedAtDesc(Long assetId);
 }
