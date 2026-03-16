@@ -1,6 +1,7 @@
 package com.example.assetManagement.domain.asset.service;
 
 import com.example.assetManagement.domain.asset.dto.AssetCreateRequest;
+import com.example.assetManagement.domain.asset.dto.AssetModifyRequest;
 import com.example.assetManagement.domain.asset.dto.assign.AssetAssignRequest;
 import com.example.assetManagement.domain.asset.entity.Asset;
 import com.example.assetManagement.domain.asset.entity.AssetHistory;
@@ -72,6 +73,81 @@ class AssetServiceTest {
                 () -> assertThat(savedAsset.getStatus()).isEqualTo(AssetStatus.IN_STOCK),
                 () -> assertThat(savedAsset.getSerialNo()).isEqualTo(serialNo),
                 () -> assertThat(savedAsset.getMemo()).isEqualTo(memo)
+        );
+    }
+
+    @Test
+    @DisplayName("자산 수정 테스트")
+    void modifyAssetTest() {
+        // given
+        String assetNo = "test-1";
+
+        Asset asset = Asset.builder()
+                .assetNo(assetNo)
+                .name("김사원")
+                .category(Category.LAPTOP)
+                .serialNo("0000-0000-0000-0000")
+                .purchasedAt(LocalDateTime.now().minusDays(1))
+                .memo("이전 메모")
+                .build();
+        Asset savedAsset = assetRepository.save(asset);
+
+        String newAssertNo = "2026-03-16-0001";
+        Category newCategory = Category.ETC;
+        String newSerialNo = "0000-0000-0000-0000";
+        LocalDate newPurchasedAt = LocalDate.now();
+        String newMemo = "새로운 메모";
+
+        AssetModifyRequest request = new AssetModifyRequest();
+        request.setAssetNo(newAssertNo);
+        request.setCategory(newCategory);
+        request.setSerialNo(newSerialNo);
+        request.setPurchasedAt(newPurchasedAt);
+        request.setMemo(newMemo);
+
+        // when
+        assetService.modifyAsset(savedAsset.getId(), request);
+
+        // then
+        Asset selectedAsset = assetRepository.findById(savedAsset.getId()).orElseThrow();
+        assertAll(
+                () -> assertThat(selectedAsset.getAssetNo()).isEqualTo(newAssertNo),
+                () -> assertThat(selectedAsset.getCategory()).isEqualTo(newCategory),
+                () -> assertThat(selectedAsset.getSerialNo()).isEqualTo(newSerialNo),
+                () -> assertThat(selectedAsset.getPurchasedAt().toLocalDate()).isEqualTo(newPurchasedAt),
+                () -> assertThat(selectedAsset.getMemo()).isEqualTo(newMemo)
+        );
+    }
+
+    @Test
+    @DisplayName("자산 삭제 테스트")
+    void deleteAssetTest() {
+        // given
+        String assetNo = "test-1";
+        String name = "labtop-1";
+        Category category = Category.LAPTOP;
+        String serialNo = "0000-0000-0000-0000";
+        LocalDate purchasedAt = LocalDate.now();
+        String memo = "테스트 저장";
+
+        Asset asset = Asset.builder()
+                .assetNo(assetNo)
+                .name(name)
+                .category(category)
+                .serialNo(serialNo)
+                .purchasedAt(purchasedAt.atStartOfDay())
+                .memo(memo)
+                .build();
+        Asset savedAsset = assetRepository.save(asset);
+
+        // when
+        assetService.deleteAsset(savedAsset.getId());
+
+        // then
+        Asset selectedAsset = assetRepository.findById(savedAsset.getId()).orElseThrow();
+        assertAll(
+                () -> assertThat(selectedAsset.getIsDelete()).isTrue(),
+                () -> assertThat(selectedAsset.getDeletedAt()).isNotNull()
         );
     }
 
