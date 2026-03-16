@@ -15,6 +15,9 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "assetHistory", indexes = {
+        @Index(name = "idx_asset_history_assigned_at", columnList = "assignedAt")
+})
 public class AssetHistory {
 
     @Id
