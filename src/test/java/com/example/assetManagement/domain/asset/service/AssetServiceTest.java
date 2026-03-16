@@ -122,6 +122,50 @@ class AssetServiceTest {
     }
 
     @Test
+    @DisplayName("자산 회수 테스트")
+    void returnAssetTest() {
+        // given
+        String assetNo = "test-1";
+        String name = "labtop-1";
+        Category category = Category.LAPTOP;
+        String serialNo = "0000-0000-0000-0000";
+        LocalDate purchasedAt = LocalDate.now();
+        String memo = "테스트 저장";
+
+        Asset asset = Asset.builder()
+                .assetNo(assetNo)
+                .name(name)
+                .category(category)
+                .serialNo(serialNo)
+                .purchasedAt(purchasedAt.atStartOfDay())
+                .memo(memo)
+                .build();
+        asset.assign();
+        Asset savedAsset = assetRepository.save(asset);
+
+        AssetHistory history = AssetHistory.builder()
+                .asset(asset)
+                .assigneeName("김사원")
+                .assigneeEmail("test@test.com")
+                .department("영업부")
+                .note("기스 많음")
+                .build();
+
+        assetHistoryRepository.save(history);
+
+        // when
+        assetService.returnAsset(savedAsset.getId());
+
+        // then
+        Asset selectedAsset = assetRepository.findById(savedAsset.getId()).orElseThrow();
+        AssetHistory selectedHistory = assetHistoryRepository.findByAssetIdOrderByAssignedAtDesc(selectedAsset.getId()).get(0);
+        assertAll(
+                () -> assertThat(selectedAsset.getStatus()).isEqualTo(AssetStatus.IN_STOCK),
+                () -> assertThat(selectedHistory.getReturnedAt()).isNotNull()
+        );
+    }
+
+    @Test
     @DisplayName("자산 수리요청 테스트 - 할당된 자산은 회수 처리 된다.")
     void repairAssetTest() {
         // given
@@ -151,7 +195,7 @@ class AssetServiceTest {
                 .note("기스 많음")
                 .build();
 
-        AssetHistory savedHistory = assetHistoryRepository.save(history);
+        assetHistoryRepository.save(history);
 
         String assigneeName = "김사원";
         String assigneeEmail = "test@test.com";
