@@ -2,7 +2,6 @@ package com.example.assetManagement.domain.asset.service;
 
 import com.example.assetManagement.common.exception.GlobalException;
 import com.example.assetManagement.common.exception.exceptionCode.AssetExceptionCode;
-import com.example.assetManagement.domain.asset.dto.AssetCreateRequest;
 import com.example.assetManagement.domain.asset.dto.assign.AssetAssignRequest;
 import com.example.assetManagement.domain.asset.entity.Asset;
 import com.example.assetManagement.domain.asset.entity.AssetHistory;

@@ -6,11 +6,10 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import static com.example.assetManagement.domain.asset.entity.QAsset.asset;
-import com.example.assetManagement.domain.asset.dto.QAssetListResponse;
-
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.assetManagement.domain.asset.entity.QAsset.asset;
 
 @Repository
 @RequiredArgsConstructor

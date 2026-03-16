@@ -1,7 +1,6 @@
 package com.example.assetManagement.domain.asset.service.dashboard;
 
 import com.example.assetManagement.domain.asset.dto.dashboard.DashboardResponse;
-import com.example.assetManagement.domain.asset.repository.AssetQueryRepository;
 import com.example.assetManagement.domain.asset.repository.dashboard.DashboardQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

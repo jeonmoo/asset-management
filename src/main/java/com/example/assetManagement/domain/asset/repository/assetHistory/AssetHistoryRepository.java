@@ -1,7 +1,6 @@
 package com.example.assetManagement.domain.asset.repository.assetHistory;
 
 import com.example.assetManagement.domain.asset.entity.AssetHistory;
-import com.example.assetManagement.domain.asset.enums.AssetStatus;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
