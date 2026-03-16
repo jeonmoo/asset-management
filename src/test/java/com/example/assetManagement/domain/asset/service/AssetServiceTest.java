@@ -17,12 +17,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+
+import static org.assertj.core.api.Assertions.within;
+import java.time.temporal.ChronoUnit;
 
 @SpringBootTest
 @Transactional
@@ -108,7 +112,67 @@ class AssetServiceTest {
         // then
         AssetHistory history = assetHistoryRepository.findByAssetIdAndReturnedAtIsNull(savedAsset.getId());
         assertAll(
-                () -> assertThat(assignedAsset.ge)
+                () -> assertThat(assignedAsset.getStatus()).isEqualTo(AssetStatus.ASSIGNED),
+                () -> assertThat(history.getAssignedAt()).isCloseTo(LocalDateTime.now(), within(1, ChronoUnit.SECONDS)),
+                () -> assertThat(history.getAssigneeName()).isEqualTo(assigneeName),
+                () -> assertThat(history.getAssigneeEmail()).isEqualTo(assigneeEmail),
+                () -> assertThat(history.getDepartment()).isEqualTo(department),
+                () -> assertThat(history.getNote()).isEqualTo(note)
+        );
+    }
+
+    @Test
+    @DisplayName("자산 수리요청 테스트 - 할당된 자산은 회수 처리 된다.")
+    void repairAssetTest() {
+        // given
+        String assetNo = "test-1";
+        String name = "labtop-1";
+        Category category = Category.LAPTOP;
+        String serialNo = "0000-0000-0000-0000";
+        LocalDate purchasedAt = LocalDate.now();
+        String memo = "테스트 저장";
+
+        Asset asset = Asset.builder()
+                .assetNo(assetNo)
+                .name(name)
+                .category(category)
+                .serialNo(serialNo)
+                .purchasedAt(purchasedAt.atStartOfDay())
+                .memo(memo)
+                .build();
+        asset.assign();
+        Asset savedAsset = assetRepository.save(asset);
+
+        AssetHistory history = AssetHistory.builder()
+                .asset(asset)
+                .assigneeName("김사원")
+                .assigneeEmail("test@test.com")
+                .department("영업부")
+                .note("기스 많음")
+                .build();
+
+        AssetHistory savedHistory = assetHistoryRepository.save(history);
+
+        String assigneeName = "김사원";
+        String assigneeEmail = "test@test.com";
+        String department = "영업부";
+        String note = "";
+        AssetAssignRequest request = new AssetAssignRequest();
+        request.setAssigneeName(assigneeName);
+        request.setAssigneeEmail(assigneeEmail);
+        request.setDepartment(department);
+        request.setNote(note);
+
+        // when
+        assetService.repairAsset(savedAsset.getId());
+
+        // then
+        Asset selectedAsset = assetRepository.findById(savedAsset.getId()).orElseThrow();
+        AssetHistory selectedHistory = assetHistoryRepository.findByAssetIdOrderByAssignedAtDesc(selectedAsset.getId()).get(0);
+
+        assertAll(
+                () -> assertThat(selectedAsset.getStatus()).isEqualTo(AssetStatus.REPAIR),
+                () -> assertThat(selectedHistory.getReturnedAt()).isNotNull()
         );
     }
 }
