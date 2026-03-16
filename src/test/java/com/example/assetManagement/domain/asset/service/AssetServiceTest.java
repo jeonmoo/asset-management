@@ -295,4 +295,33 @@ class AssetServiceTest {
                 () -> assertThat(selectedHistory.getReturnedAt()).isNotNull()
         );
     }
+
+    @Test
+    @DisplayName("자산 수리 완료 테스트")
+    void completeRepairAssetTest() {
+        // given
+        String assetNo = "test-1";
+        String name = "labtop-1";
+        Category category = Category.LAPTOP;
+        String serialNo = "0000-0000-0000-0000";
+        LocalDate purchasedAt = LocalDate.now();
+        String memo = "테스트 저장";
+
+        Asset asset = Asset.builder()
+                .assetNo(assetNo)
+                .name(name)
+                .category(category)
+                .serialNo(serialNo)
+                .purchasedAt(purchasedAt.atStartOfDay())
+                .memo(memo)
+                .build();
+        asset.changeStatusToRepair();
+        Asset savedAsset = assetRepository.save(asset);
+
+        // when
+        Asset processedAsset = assetService.completeRepairAsset(savedAsset.getId());
+
+        // then
+        assertThat(processedAsset.getStatus()).isEqualTo(AssetStatus.IN_STOCK);
+    }
 }
