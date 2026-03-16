@@ -28,7 +28,7 @@ public class AssetSupportService {
 
     private final AssetHistoryMapper assetHistoryMapper;
 
-    public Optional<AssetHistory> getCurrentAssignHistory(List<AssetHistory> histories) {
+    public Optional<AssetHistory> getCurrentAssignedHistory(List<AssetHistory> histories) {
         return histories.stream()
                 .filter(history -> Objects.isNull(history.getReturnedAt()))
                 .findFirst();
