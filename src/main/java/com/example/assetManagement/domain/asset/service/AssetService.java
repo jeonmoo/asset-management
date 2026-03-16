@@ -58,10 +58,10 @@ public class AssetService {
         return assetMapper.toAssetDetailResponse(asset, histories, currentHistory);
     }
 
-    public void createAsset(AssetCreateRequest request) {
+    public Asset createAsset(AssetCreateRequest request) {
         assetSupportService.validateCreate(request.getAssetNo());
         Asset asset = assetMapper.toAsset(request);
-        assetRepository.save(asset);
+        return assetRepository.save(asset);
     }
 
     public void modifyAsset(Long assetId, AssetModifyRequest request) {
@@ -89,9 +89,10 @@ public class AssetService {
         return assetMapper.toAssetAssignFormResponse(asset);
     }
 
-    public void assignAsset(Long assetId, AssetAssignRequest request) {
+    public Asset assignAsset(Long assetId, AssetAssignRequest request) {
         Asset asset = findWithLockById(assetId);
         assetSupportService.assignAsset(asset, request);
+        return asset;
     }
 
     public void returnAsset(Long assetId) {
